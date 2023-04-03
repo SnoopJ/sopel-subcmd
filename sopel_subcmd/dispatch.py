@@ -2,6 +2,7 @@ from collections import ChainMap
 import inspect
 import logging
 from typing import Tuple
+import unicodedata
 
 __all__ = [
     "parse_subcmd",
@@ -44,7 +45,12 @@ def dispatch_subcmd(bot, trigger, *func_args, subcmd_sep: str = ":", **func_kwar
     frames = inspect.getouterframes(inspect.currentframe())
     caller_frame = frames[1].frame
     try:
-        func_name = f"{cmd}_{subcmd}"
+        # normalize the target identifier in accordance with Python's behavior
+        #
+        # "All identifiers are converted into the normal form NFKC while
+        # parsing; comparison of identifiers is based on NFKC." -- https://docs.python.org/3/reference/lexical_analysis.html#identifiers
+        func_name_raw = f"{cmd}_{subcmd}"
+        func_name = unicodedata.normalize("NFKC", func_name_raw)
         func = ChainMap(caller_frame.f_locals, caller_frame.f_globals)[func_name]
     except LookupError:
         LOGGER.debug("Cannot find subcommand handler %r", func_name)
