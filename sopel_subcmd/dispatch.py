@@ -20,9 +20,7 @@ def parse_subcmd(bot, trigger, subcmd_sep: str) -> Tuple[str, str]:
 
     NOTE: ``subcmd`` can be empty if a subcommand is not present.
     """
-    cmd, sep, subcmd = trigger.group(0).partition(subcmd_sep)
-    N_prefix = len(bot.settings.core.prefix)
-    prefix, cmd = cmd[:N_prefix-1], cmd[N_prefix-1:]
+    cmd, sep, subcmd = trigger.group(1).partition(subcmd_sep)
 
     return cmd, subcmd
 
