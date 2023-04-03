@@ -105,6 +105,21 @@ def dummy(bot, trigger):
     bot.say(f"base command, invoked as {trigger.group(0)!r}")
 ```
 
+Which makes the feature a little more transparent on the user-facing side
+
+```
+<SnoopJ> !dummy:猫
+<testibot> にゃあああー
+<SnoopJ> !dummy:çava
+<testibot> ça va
+<SnoopJ> !dummy:çava
+<testibot> ça va
+<SnoopJ> !dummy:パイソン
+<testibot> 🐍
+<SnoopJ> !dummy:ﾊﾟｲｿﾝ
+<testibot> 🐍
+```
+
 ### Misc.
 
 If needed, you can check the version of this plugin using Sopel's `version` command:
