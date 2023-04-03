@@ -8,20 +8,24 @@ python3 -m pip install git+https://github.com/SnoopJ/sopel-subcmd
 
 ### Example usage
 
-Import the `dispatch_subcmd` helper to your plugin, and call it with the
-`bot, trigger` associated with your event. The return value indicates if a
-subcommand handler was found and called. Note that exceptions from handlers
-are allowed to propagate freely.
+Import the `SubcommandDispatcher` class to your plugin, register handlers
+for your desired subcommands, and call it with the `bot, trigger` associated
+with your event. The return value indicates if a subcommand handler was found
+and called. Note that exceptions from handlers are allowed to propagate freely.
 
 ```python
 from sopel import plugin
-from sopel_subcmd import dispatch_subcmd
+from sopel_subcmd import SubcommandDispatcher
 
 
+dispatcher = SubcommandDispatcher()
+
+@dispatcher.register
 def dummy_subcmd1(bot, trigger, *args, **kwargs):
     bot.say(f"dummy:subcmd1 subcommand (args={args!r}, kwargs={kwargs!r})")
 
 
+@dispatcher.register
 def dummy_subcmd2(bot, trigger, *args, **kwargs):
     bot.say(f"dummy:subcmd2 subcommand (args={args!r}, kwargs={kwargs!r})")
 
@@ -38,7 +42,7 @@ def dummy(bot, trigger):
     moredata = "Twas brillig and the slithy toves"
 
     # automatically hand off to the subcommand handlers, if appropriate
-    if dispatch_subcmd(bot, trigger, data, moredata=moredata):
+    if dispatcher.dispatch_subcmd(bot, trigger, data, moredata=moredata):
         return
 
     # we don't *have* to pass data to the handler if ``bot, trigger`` would be enough
@@ -69,15 +73,23 @@ Because Python has excellent support for Unicode identifiers, you can dispatch
 to functions whose names are written in nontrivial scripts:
 
 ```python
+from sopel_subcmd import SubcommandDispatcher
+
+
+dispatcher = SubcommandDispatcher()
+
+@dispatcher.register
 def dummy_猫(bot, trigger, *args, **kwargs):
     bot.say("にゃあああー")
 
 
 # ç = U+0063 U+0327
+@dispatcher.register
 def dummy_çava(bot, trigger, *args, **kwargs):
     bot.say("ça va")
 
 
+@dispatcher.register
 def dummy_パイソン(bot, trigger, *args, **kwargs):
     bot.say("\N{SNAKE}")
 
@@ -99,7 +111,7 @@ def dummy(bot, trigger):
     moredata = "Twas brillig and the slithy toves"
 
     # automatically hand off to the subcommand handlers, if appropriate
-    if dispatch_subcmd(bot, trigger, data, moredata=moredata):
+    if dispatcher.dispatch_subcmd(bot, trigger, data, moredata=moredata):
         return
 
     bot.say(f"base command, invoked as {trigger.group(0)!r}")
