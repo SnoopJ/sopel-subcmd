@@ -71,3 +71,7 @@ If needed, you can check the version of this plugin using Sopel's `version` comm
 <SnoopJ> !version snoopj-subcmd
 <testibot> [version] snoopj-subcmd v0.1
 ```
+
+#### Known issues
+
+* subcommands whose names are invalid function names are not normalized
