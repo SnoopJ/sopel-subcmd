@@ -3,7 +3,7 @@ from typing import Callable, Optional, Tuple
 import unicodedata
 
 from sopel.bot import Sopel
-from sopel.Trigger import Trigger
+from sopel.trigger import Trigger
 
 
 __all__ = [
@@ -17,8 +17,9 @@ class SubcommandDispatcher:
     def __init__(self):
         self._handlers = {}
 
-    def register(self, func: Callable):
-        name = func.__name__
+    def register(self, func: Callable, name: Optional[str] = None):
+        if name is None:
+            name = func.__name__
 
         name_normed = unicodedata.normalize("NFKC", name)
         self._handlers[name_normed] = func
