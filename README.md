@@ -2,8 +2,8 @@ This plugin for the IRC bot [Sopel](https://sopel.chat) allows for
 
 ### Installation
 
-```
-python3 -m pip install git+https://github.com/SnoopJ/sopel-subcmd
+```bash
+$ pip install sopel-subcmd
 ```
 
 ### Example usage
@@ -137,8 +137,8 @@ Which makes the feature a little more transparent on the user-facing side
 If needed, you can check the version of this plugin using Sopel's `version` command:
 
 ```
-<SnoopJ> !version snoopj-subcmd
-<testibot> [version] snoopj-subcmd v0.1
+<SnoopJ> !version sopel-subcmd
+<testibot> [version] sopel-subcmd v1.0.0
 ```
 
 #### Known issues
